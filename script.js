@@ -23,6 +23,9 @@ var fireball_exists = false;
 var fireball_time = 54;
 var proj_dist=0;
 
+var stage = document.createElement("IMG");
+stage.setAttribute("src","testStage.png");
+
 function setRightRun(){
     setDim(43,58);
     if(left){
@@ -134,7 +137,7 @@ function setFireBall(){
             img.setAttribute("src","images/attack-5-right.gif");
             setDim(53,60);
         } else if (dist===6){
-            fireball.setImage("images/fireball-1-right.gif");
+            particle.vx -= 60;
             fireball_exists=true;
             fireball.setPosition(particle.x+img_width*(.8),particle.y+8);
             fireball.setRight();
@@ -157,6 +160,7 @@ function setFireBall(){
             setDim(53,60);
         } else if (dist===6){
             fireball_exists=true;
+            particle.vx += 60;
             fireball.setPosition(particle.x-img_width*(.8),particle.y+8);
             fireball.setLeft();
         }
@@ -368,7 +372,7 @@ function Projectile(x,y,v,img){
 // Particle object
 var particle = {
     x: canvas.width/2,
-    y: canvas.height,
+    y: canvas.height - 65,
     vx: 0,
     vy: 0,
     ax: 0,
@@ -386,7 +390,7 @@ var particle = {
             this.y += this.vy / FPS;
         };
         
-        if(this.y < (canvas.height - img_height*1.5)){
+        if(this.y < (canvas.height - 65 - img_height*1.5)){
             flying = true;
         } else {
             flying = false;
@@ -406,8 +410,8 @@ var particle = {
             this.y = 0;
             this.vy = 0;
         };
-        if ( this.y >= canvas.height - img_height ) {
-            this.y = canvas.height - img_height;
+        if ( this.y > (canvas.height - 65) - img_height ) {
+            this.y = canvas.height - 65 - img_height;
             this.vy = -this.vy/6;
             this.vx = this.vx/1.01;
         };
@@ -417,6 +421,7 @@ var particle = {
 // Game loop draw function
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(stage,0,0,canvas.width,canvas.height);
     particle.draw();
     if(fireball_exists){
         fireball.draw();

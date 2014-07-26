@@ -1,9 +1,9 @@
 var snd = new Audio("sounds/ppg_drum.mp3"); // buffers automatically when created
 snd.addEventListener('ended', function() {
     this.currentTime = 0;
-    this.play();
+   // this.play();
 }, false);
-snd.play();
+//snd.play();
 
 function lowerVolume(){
     if(snd.volume > 0){
@@ -40,11 +40,16 @@ var dist = 0;
 
 var fire_img = document.createElement("IMG");
 fire_img.setAttribute("src","images/fireball-1-right.gif");
-var fireball_speed = 600;
-var fireball = new Projectile(0,0,fireball_speed,fire_img);
-var fireball_exists = false;
-var fireball_time = 54;
-var proj_dist=0;
+var fireball_speed = 500;
+var fireball = new Projectile(0,0,fireball_speed,fire_img, false);
+
+var laser_img = document.createElement("IMG");
+laser_img.setAttribute("src","images/laser.gif");
+var laser_speed = 1000;
+var laser = new Projectile(0,0,laser_speed,laser_img, false);
+
+/*var projectile_time = 54;
+var proj_dist=0;*/
 
 var stage = document.createElement("IMG");
 stage.setAttribute("src","testStage.png");
@@ -141,7 +146,7 @@ function setLeftTakeOff(){
         };
 };
 
-function setFireBall(){
+function setProjectile(projectile){
     attacking=true;
     if(right){
         dist+=1;
@@ -161,9 +166,10 @@ function setFireBall(){
             setDim(53,60);
         } else if (dist===6){
             particle.vx -= 60;
-            fireball_exists=true;
-            fireball.setPosition(particle.x+img_width*(.8),particle.y+8);
-            fireball.setRight();
+            projectile.exists =true;
+            projectile.setPosition(particle.x+img_width*(.8),particle.y+8);
+            projectile.setRight();
+            projectile.setImage("images/fireball-1-right.gif");
         }
     } else {
         dist+=1;
@@ -182,10 +188,11 @@ function setFireBall(){
             img.setAttribute("src","images/attack-5-left.gif");
             setDim(53,60);
         } else if (dist===6){
-            fireball_exists=true;
+            projectile.exists=true;
             particle.vx += 60;
-            fireball.setPosition(particle.x-img_width*(.8),particle.y+8);
-            fireball.setLeft();
+            projectile.setPosition(particle.x-img_width*(.8),particle.y+8);
+            projectile.setLeft();
+            projectile.setImage("images/fireball-1-left.gif");
         }
     }
 };
@@ -274,12 +281,13 @@ onkeydown = onkeyup = function(e){
         } else {
             moving = true;
         };
-    } else if (keys[67]){
+    } else if (keys[68]){ //Plasma ball
+        //laser.exists = false;
         if(!attacking){
             dist=0;
         };
-        setFireBall();
-    } else if (keys[90]){
+        setProjectile(fireball);
+    } else if (keys[65]){ // punch attack
         if(kicking){
             punching = true;
             kicking = false;
@@ -352,7 +360,7 @@ onkeydown = onkeyup = function(e){
                 combo=1;
             }
         };
-    }else if(keys[88]){
+    } else if(keys[83]) { // kick attack
         if(punching){
             kicking = true;
             punching = false;
@@ -365,53 +373,81 @@ onkeydown = onkeyup = function(e){
                 img.setAttribute("src","images/brace-right.gif");
                 setDim(49,60);
                 combo += 1;
-            } else if (combo <= 3){
+            } else if (combo <= 2){
                 img.setAttribute("src","images/kick-1-right.gif");
                 setDim(52,54);
                 if(!flying){
-                    particle.vx += 10;
-                    particle.vy -= 10;
+                    particle.vx += 15;
+                    particle.vy -= 80;
                 }
                 combo+=1;
             } else if (combo <= 10){
                 img.setAttribute("src","images/kick-2-right.gif");
                 setDim(85,52);
                 if(!flying){
-                    particle.vx += 30;
-                    particle.vy -= 30;
+                    particle.vx += 20;
+                    //particle.vy -= 15;
                 }
                 combo+=1;
-            } else if (combo ===11){
-                combo = 1;
             }
         } else {
             if(combo <= 1){
                 img.setAttribute("src","images/brace-left.gif");
                 setDim(49,60);
                 combo += 1;
-            } else if (combo <= 3){
+            } else if (combo <= 2){
                 img.setAttribute("src","images/kick-1-left.gif");
                 setDim(52,54);
                 if(!flying){
-                    particle.vx += 10;
-                    particle.vy -= 10;
+                    particle.vx += 15;
+                    particle.vy -= 80;
                 }
                 combo+=1;
             } else if (combo <= 10){
                 if(!flying){
-                    particle.vx -= 30;
-                    particle.vy -= 30;
+                    particle.vx -= 20;
+                    //particle.vy -= 15;
                 }
                 img.setAttribute("src","images/kick-2-left.gif");
                 setDim(85,52);
-            } else if (combo===11){
-                combo=1;
             }
         }
         
+    } else if (keys[87]){ // Laser beam
+        //fireball.exists = false;
+        if(!attacking){
+            attacking = true;
+            combo=1;
+        }
+        if(right){
+            if(combo <= 3){
+                img.setAttribute("src","images/brace-right.gif");
+                setDim(49,60);
+                combo += 1;
+            } else if (combo === 4) {
+                laser.exists=true;
+                laser.setPosition(particle.x+img_width*(.7),particle.y+15);
+                laser.setRight();
+                laser.setImage("images/laser.gif");
+                combo += 1;
+            };
+        } else {
+            if(combo <= 3){
+                img.setAttribute("src","images/brace-left.gif");
+                setDim(49,60);
+                combo +=1;
+            } else if (combo === 4) {
+                laser.exists=true;
+                laser.setPosition(particle.x-img_width*(.9),particle.y+15);
+                laser.setLeft();
+                laser.setImage("images/laser.gif");
+                combo += 1;
+            }
+        };
     } else {
         moving = false;
         attacking = false;
+        combo=1;
         if(flying){
             if(right && particle.vy >= 0){
                 img.setAttribute("src","images/falling-right.gif");
@@ -448,58 +484,19 @@ var ctx = canvas.getContext( "2d" );
 var FPS = 150;
 
 //Projectile object
-function Projectile(x,y,v,img){
+function Projectile(x,y,v,img,exists){
     this.x = x;
     this.y = y;
     this.velocity = v;
     this.img = img;
+    this.exists = exists;
     this.draw = function(){
-        var img = fire_img;
         if(right){
-            img.setAttribute("src", "images/fireball-1-right.gif");
-            ctx.drawImage(img,this.x,this.y,56,43);
+            ctx.drawImage(this.img,this.x,this.y);
         } else {
-            img.setAttribute("src", "images/fireball-1-left.gif");
-            ctx.drawImage(img,this.x,this.y,56,43);
+            ctx.drawImage(this.img,this.x,this.y);
         };
-        /*if(right){
-            proj_dist += 1;
-            if(proj_dist === 1){
-                fireball.setImage("images/fireball-1-right.gif");
-                fireball.draw();
-            } else if (proj_dist === 2){
-                fireball.setImage("images/fireball-2-right.gif");
-                fireball.draw();
-            } else if (proj_dist === 3){
-                fireball.setImage("images/fireball-3-right.gif");
-                fireball.draw();
-                proj_dist=0;
-                fireball_time -= 3;
-            };
-            if(proj_dist===fireball_time){
-                fireball_time=54;
-                fireball_exists=false;
-            };
-        } else {
-            proj_dist += 1;
-            if(proj_dist === 1){
-                fireball.setImage("images/fireball-1-left.gif");
-                fireball.draw();
-            } else if (proj_dist === 2){
-                fireball.setImage("images/fireball-2-left.gif");
-                fireball.draw();
-            } else if (proj_dist === 3){
-                fireball.setImage("images/fireball-3-left.gif");
-                fireball.draw();
-                proj_dist=0;
-                fireball_time -= 3;
-            };
-            if(proj_dist===fireball_time){
-                fireball_time=54;
-                fireball_exists=false;
-            };
-        }; */
-    }
+    };
     this.update = function(){
         this.x += this.velocity / FPS;
     };
@@ -576,21 +573,26 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(stage,0,0,canvas.width,canvas.height);
     particle.draw();
-    if(fireball_exists){
+   if(fireball.exists){
         fireball.draw();
+    };
+    if(laser.exists){
+        laser.draw();
     }
 }
 
 // Game loop update function
 function update() {
     particle.update();
-    if(fireball_exists){
+    if(fireball.exists){
         fireball.update();
+    };
+    if(laser.exists){
+        laser.update();
     }
 }
 
 function tick() {
-    //console.log(fireball.x);
     draw();
     update();
 }

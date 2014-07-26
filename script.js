@@ -1,5 +1,28 @@
+var snd = new Audio("sounds/ppg_drum.mp3"); // buffers automatically when created
+snd.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+snd.play();
+
+function lowerVolume(){
+    if(snd.volume > 0){
+        snd.volume -= .2;
+    };
+}
+
+function raiseVolume(){
+    if(snd.volume < 1){
+        snd.volume += .2;
+    };
+}
+
+
 var img_width = 43;
 var img_height = 58;
+var combo = 1;
+var punching = false;
+var kicking = false;
 
 function setDim(width,height){
     img_width=width;
@@ -251,11 +274,141 @@ onkeydown = onkeyup = function(e){
         } else {
             moving = true;
         };
-    } else if (keys[32]){
+    } else if (keys[67]){
         if(!attacking){
             dist=0;
         };
         setFireBall();
+    } else if (keys[90]){
+        if(kicking){
+            punching = true;
+            kicking = false;
+            combo=1;
+        } else {
+            punching = true;
+        }
+        if(right){
+            if( combo<=2 ){
+                img.setAttribute("src","images/punch-1-right.gif");
+                setDim(43,60);
+                particle.vx += 5;
+                combo +=1;
+            } else if (combo<=4){
+                img.setAttribute("src","images/punch-2-right.gif");
+                setDim(55,60);
+                particle.vx += 5;
+                combo +=1;
+            } else if (combo<=6){
+                img.setAttribute("src","images/punch-3-right.gif");
+                setDim(52,61);
+                particle.vx += 5;
+                combo +=1;
+            } else if (combo<=8){
+                img.setAttribute("src","images/punch-4-right.gif");
+                setDim(59,60);
+                particle.vx += 5;
+                combo +=1;
+            } else if (combo<=10){
+                img.setAttribute("src","images/punch-5-right.gif");
+                setDim(42,63);
+                particle.vx += 5;
+                combo +=1;
+            } else if (combo<=14){
+                img.setAttribute("src","images/punch-6-right.gif");
+                setDim(56,61);
+                particle.vx += 5;
+                combo=1;
+            }
+        } else {
+            if( combo <= 2 ){
+                img.setAttribute("src","images/punch-1-left.gif");
+                setDim(43,60);
+                particle.vx -= 5;
+                combo +=1;
+            } else if (combo <= 4){
+                img.setAttribute("src","images/punch-2-left.gif");
+                setDim(55,60);
+                particle.vx -= 5;
+                combo +=1;
+            } else if (combo <= 6){
+                img.setAttribute("src","images/punch-3-left.gif");
+                setDim(52,61);
+                particle.vx -= 5;
+                combo +=1;
+            } else if (combo <= 8){
+                img.setAttribute("src","images/punch-4-left.gif");
+                setDim(59,60);
+                particle.vx -= 5;
+                combo +=1;
+            } else if (combo <= 10){
+                img.setAttribute("src","images/punch-5-left.gif");
+                setDim(42,63);
+                particle.vx -= 5;
+                combo +=1;
+            } else if (combo <= 14){
+                img.setAttribute("src","images/punch-6-left.gif");
+                setDim(56,61);
+                particle.vx -= 5;
+                combo=1;
+            }
+        };
+    }else if(keys[88]){
+        if(punching){
+            kicking = true;
+            punching = false;
+            combo=1;
+        } else {
+            kicking = true;
+        }
+        if(right){
+            if(combo <= 1){
+                img.setAttribute("src","images/brace-right.gif");
+                setDim(49,60);
+                combo += 1;
+            } else if (combo <= 3){
+                img.setAttribute("src","images/kick-1-right.gif");
+                setDim(52,54);
+                if(!flying){
+                    particle.vx += 10;
+                    particle.vy -= 10;
+                }
+                combo+=1;
+            } else if (combo <= 10){
+                img.setAttribute("src","images/kick-2-right.gif");
+                setDim(85,52);
+                if(!flying){
+                    particle.vx += 30;
+                    particle.vy -= 30;
+                }
+                combo+=1;
+            } else if (combo ===11){
+                combo = 1;
+            }
+        } else {
+            if(combo <= 1){
+                img.setAttribute("src","images/brace-left.gif");
+                setDim(49,60);
+                combo += 1;
+            } else if (combo <= 3){
+                img.setAttribute("src","images/kick-1-left.gif");
+                setDim(52,54);
+                if(!flying){
+                    particle.vx += 10;
+                    particle.vy -= 10;
+                }
+                combo+=1;
+            } else if (combo <= 10){
+                if(!flying){
+                    particle.vx -= 30;
+                    particle.vy -= 30;
+                }
+                img.setAttribute("src","images/kick-2-left.gif");
+                setDim(85,52);
+            } else if (combo===11){
+                combo=1;
+            }
+        }
+        
     } else {
         moving = false;
         attacking = false;

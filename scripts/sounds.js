@@ -8,10 +8,10 @@ sounds[5] = new Audio("sounds/cooler.MP3");
 sounds[6] = new Audio("sounds/lovetrain.mp3");
 
 var i = Math.round(Math.random()*(sounds.length-1));
-console.log(i + "||||" + sounds.length);
 
 sounds[i].addEventListener('ended', function() {
-    i = Math.round(Math.random()*sounds.length);
+    console.log("Hey I'm looping");
+    i = Math.round(Math.random()*(sounds.length-1));
     sounds[i].currentTime = 0;
     sounds[i].play();
 }, false);
@@ -28,4 +28,11 @@ function raiseVolume(){
     if(sounds[i].volume < 1){
         sounds[i].volume += .2;
     };
+}
+
+function skipSong(){
+    sounds[i].pause();
+    sounds[i].currentTime = 0;
+    i = Math.round(Math.random()*(sounds.length-1));
+    sounds[i].play();
 }

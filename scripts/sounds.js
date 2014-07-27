@@ -7,8 +7,8 @@ sounds[4] = new Audio("sounds/heartbeats.mp3");
 sounds[5] = new Audio("sounds/cooler.MP3");
 sounds[6] = new Audio("sounds/lovetrain.mp3");
 
-var i = Math.round(Math.random()*sounds.length-1);
-console.log(i);
+var i = Math.round(Math.random()*(sounds.length-1));
+console.log(i + "||||" + sounds.length);
 
 sounds[i].addEventListener('ended', function() {
     i = Math.round(Math.random()*sounds.length);

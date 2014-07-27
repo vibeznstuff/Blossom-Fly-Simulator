@@ -2,13 +2,16 @@
 <html>
     <head>
         <title>Bubbles Fly Simulator</title>
-        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="styles/style.css" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     </head>
     <body>
         <canvas id="canvas" width="800" height="600">
 	</canvas>
-        <script type="text/javascript" src="script.js"></script>
+        <script type="text/javascript" src="scripts/script.js"></script>
+	<script type="text/javascript" src="scripts/character.js"></script>
+	<script type="text/javascript" src="scripts/sounds.js"></script>
+	<script type="text/javascript" src="scripts/protoman.js"></script>
 	<div id="instructions">
 	<h3> Instructions </h3>
 	    <ul>
@@ -20,6 +23,7 @@
 	    </ul>
 	    <button onclick="lowerVolume()">Lower Volume</button>
 	    <button onclick="raiseVolume()">Raise Volume</button>
+
 	</div>
     </body>
 </html>

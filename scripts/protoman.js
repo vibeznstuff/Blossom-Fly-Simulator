@@ -8,39 +8,58 @@ function Protoman(){
     
     //Protoman-specific actions
     this.character.blast1 = false;
-    this.character.blast2 = false;
-    this.character.laser = false;
     this.character.defend = false;
+    
+    var plasma_img = document.createElement("IMG");
+    var plasma_speed = 800;
+    var plasmaball = new Projectile(0,0,plasma_speed, plasma_img, false);
+    this.getPlasmaBall = function(){
+        return plasmaball;
+    };
     
     this.character.move = function(){
         var rand = 0;
         if(duration < 1){
             duration = Math.round(Math.random()*250) + 50;
             rand = Math.random();
-            if(rand < .20){
+            if(rand < .20){ //Move left
                 moving = true;
                 this.blast1 = false;
                 if(this.right){
+                    this.defend = false;
                     this.left = true;
                     this.right = false;
                     this.vx = 0;
                     this.ax = 0;
                 }
                 moves = 0;
-            } else if ( rand < .4) {
+            } else if ( rand < .4) { //Move right
                 moving = true;
                 this.blast1 = false;
                 if(this.left){
+                    this.defend = false;
                     this.left = false;
                     this.right = true;
                     this.vx = 0;
                     this.ax = 0;
                 }
                 moves = 0;
-            } else if (rand < .6) {
+            } else if (rand < .6) { //Shoot
                 moving = false;
                 this.blast1= true;
-            } else {
+                this.defend = false;
+                if(this.left){
+                    plasmaball.exists =true;
+                    plasmaball.setPosition(this.x+img.width*(.8),this.y+15);
+                    plasmaball.setLeft();
+                    plasmaball.setImage("images/protoman/plasmaball-left.gif");
+                } else {
+                    plasmaball.exists = true;
+                    plasmaball.setPosition(this.x+img.width*(.8),this.y+15);
+                    plasmaball.setRight();
+                    plasmaball.setImage("images/protoman/plasmaball-right.gif");
+                }
+            } else { //Don't do anything
                 moving = false;
                 this.blast1 = false;
                 if(this.left){
@@ -55,10 +74,22 @@ function Protoman(){
             };
         };
         duration -= 1;
-        console.log(duration);
     };
     
     var moves = 0;
+    
+    this.reflect = function(proj){
+        var xtouching = (Math.abs(proj.x - this.character.x) <= 20);
+        var y1 = (proj.y > this.character.y) && (proj.y < (this.character.y+this.character.img.height));
+        var y2 = (proj.y + proj.img.height) > this.character.y;
+        var ytouching =  y1 || y2
+        var goingRight = proj.velocity > 0;
+        if(this.character.left && goingRight && xtouching && ytouching){
+            proj.reverse();
+        } else if (this.character.right && !goingRight && xtouching && ytouching){
+            proj.reverse();
+        };
+    };
     
     this.draw = function(){
         this.character.draw();
@@ -67,8 +98,12 @@ function Protoman(){
         this.character.move();
         this.character.update();
         this.setSprite();
-        //console.log(moves);
-    }
+        if(this.character.defend){
+            this.reflect(fireball);
+            this.reflect(laser);
+        };
+    };
+    
     this.setSprite = function(){
         //console.log(this.character.vx);
         if(this.character.left){
@@ -89,6 +124,7 @@ function Protoman(){
                     this.character.setImage("images/protoman/brace-left.gif");
                 } else if (moves <= 40) {
                     this.character.setImage("images/protoman/run-1-left.gif");
+                    this.character.defend = true;
                     this.character.vx -= speed;
                 } else if (moves <= 60) {
                     this.character.setImage("images/protoman/run-2-left.gif");
@@ -120,6 +156,7 @@ function Protoman(){
                     this.character.setImage("images/protoman/brace-right.gif");
                 } else if (moves <= 40) {
                     this.character.setImage("images/protoman/run-1-right.gif");
+                    this.character.defend = true;
                     this.character.vx += speed;
                 } else if (moves <= 60) {
                     this.character.setImage("images/protoman/run-2-right.gif");

@@ -20,14 +20,15 @@ var attacking = false;
 var dist = 0;
 
 var fire_img = document.createElement("IMG");
-fire_img.setAttribute("src","images/blossom/fireball-1-right.gif");
+var fire_right = "images/blossom/fireball-1-right.gif";
+var fire_left = "images/blossom/fireball-1-left.gif";
 var fireball_speed = 500;
-var fireball = new Projectile(0,0,fireball_speed,fire_img, false);
+var fireball = new Projectile(0,0,fireball_speed,fire_img, false, fire_right, fire_left);
 
 var laser_img = document.createElement("IMG");
-laser_img.setAttribute("src","images/blossom/laser.gif");
+var laser_src = "images/blossom/laser.gif";
 var laser_speed = 1000;
-var laser = new Projectile(0,0,laser_speed,laser_img, false);
+var laser = new Projectile(0,0,laser_speed,laser_img, false,laser_src,laser_src);
 
 /*var projectile_time = 54;
 var proj_dist=0;*/
@@ -256,7 +257,6 @@ onkeydown = onkeyup = function(e){
         moving=false;
         if(!flying){
             if (keys[87]) { // Crouching laser beam
-                console.log("HI");
                 if(!attacking){
                     attacking = true;
                     combo=1;
@@ -556,6 +556,9 @@ function draw() {
     if(laser.exists){
         laser.draw();
     };
+    if(protoman.getPlasmaBall().exists){
+        protoman.getPlasmaBall().draw();
+    };
     
     protoman.draw();
 }
@@ -568,6 +571,9 @@ function update() {
     };
     if(laser.exists){
         laser.update();
+    };
+    if(protoman.getPlasmaBall().exists){
+        protoman.getPlasmaBall().update();
     };
     
     protoman.update();

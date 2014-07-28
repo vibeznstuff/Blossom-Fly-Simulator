@@ -147,9 +147,9 @@ function setProjectile(projectile){
             img.setAttribute("src","images/blossom/attack-5-right.gif");
             //setdim(53,60);
         } else if (dist===6){
-            particle.vx -= 60;
+            player.vx -= 60;
             projectile.exists =true;
-            projectile.setPosition(particle.x+img.width*(.8),particle.y+8);
+            projectile.setPosition(player.x+img.width*(.8),player.y+8);
             projectile.setRight();
             projectile.setImage("images/blossom/fireball-1-right.gif");
         }
@@ -171,8 +171,8 @@ function setProjectile(projectile){
             //setdim(53,60);
         } else if (dist===6){
             projectile.exists=true;
-            particle.vx += 60;
-            projectile.setPosition(particle.x-img.width*(.8),particle.y+8);
+            player.vx += 60;
+            projectile.setPosition(player.x-img.width*(.8),player.y+8);
             projectile.setLeft();
             projectile.setImage("images/blossom/fireball-1-left.gif");
         }
@@ -186,9 +186,9 @@ onkeydown = onkeyup = function(e){
     keys[e.keyCode] = e.type == 'keydown';
     /*insert conditional here*/
     if(keys[37] && keys[38] && !attacking){ // left and up
-        particle.vx += -20;
-        particle.vy += -20;
-        particle.ax += -5;
+        player.vx += -20;
+        player.vy += -20;
+        player.ax += -5;
         if(!flying){
             setLeftTakeOff();
         } else {
@@ -198,15 +198,15 @@ onkeydown = onkeyup = function(e){
         
         moving = true;
     } else if (keys[37] && keys[40] && !attacking){ // left and down
-        particle.vx += -20;
-        particle.vy += 20
+        player.vx += -20;
+        player.vy += 20
         img.setAttribute("src","images/blossom/neutral-left.gif");
         //setdim(43,58);
         moving = true;
     } else if (keys[39] && keys[38] && !attacking){ // right and up
-        particle.vx += 20;
-        particle.vy += -20;
-        particle.ax += 5;
+        player.vx += 20;
+        player.vy += -20;
+        player.ax += 5;
         if(!flying){
             setRightTakeOff();
         } else {
@@ -215,13 +215,13 @@ onkeydown = onkeyup = function(e){
         };
         moving = true;
     } else if (keys[39] && keys[40] && !attacking){ // right and down
-        particle.vx += 20;
-        particle.vy += 20;
+        player.vx += 20;
+        player.vy += 20;
         img.setAttribute("src","images/blossom/neutral-right.gif");
         //setdim(43,58);
         moving = true;
     } else if (keys[37] && !attacking){ // left
-        particle.vx += -20;
+        player.vx += -20;
         if(!flying){
             setLeftRun();
         } else {
@@ -232,7 +232,7 @@ onkeydown = onkeyup = function(e){
         }
         moving = true;
     } else if (keys[38] && !attacking){ // up
-        particle.vy += -20;
+        player.vy += -20;
         if(right){
             img.setAttribute("src","images/blossom/fly-neutral-right.gif");
             //setdim(46,75);
@@ -242,7 +242,7 @@ onkeydown = onkeyup = function(e){
         };
         moving = true;
     } else if (keys[39] && !attacking){ // right
-        particle.vx += 20;
+        player.vx += 20;
         if(!flying){
             setRightRun();
         } else {
@@ -253,7 +253,7 @@ onkeydown = onkeyup = function(e){
         }
         moving = true;
     } else if (keys[40]){ // down
-        particle.vy += 20
+        player.vy += 20
         moving=false;
         if(!flying){
             if (keys[87]) { // Crouching laser beam
@@ -267,7 +267,7 @@ onkeydown = onkeyup = function(e){
                         combo += 1;
                     } else if (combo === 4) {
                         laser.exists=true;
-                        laser.setPosition(particle.x+img.width*(.7),particle.y+20);
+                        laser.setPosition(player.x+img.width*(.7),player.y+20);
                         laser.setRight();
                         laser.setImage("images/blossom/laser.gif");
                         combo += 1;
@@ -278,7 +278,7 @@ onkeydown = onkeyup = function(e){
                         combo +=1;
                     } else if (combo === 4) {
                         laser.exists=true;
-                        laser.setPosition(particle.x-img.width*(.9),particle.y+20);
+                        laser.setPosition(player.x-img.width*(.9),player.y+20);
                         laser.setLeft();
                         laser.setImage("images/blossom/laser.gif");
                         combo += 1;
@@ -312,64 +312,64 @@ onkeydown = onkeyup = function(e){
             if( combo<=2 ){
                 img.setAttribute("src","images/blossom/punch-1-right.gif");
                 //setdim(43,60);
-                particle.vx += 5;
+                player.vx += 5;
                 combo +=1;
             } else if (combo<=4){
                 img.setAttribute("src","images/blossom/punch-2-right.gif");
                 //setdim(55,60);
-                particle.vx += 5;
+                player.vx += 5;
                 combo +=1;
             } else if (combo<=6){
                 img.setAttribute("src","images/blossom/punch-3-right.gif");
                 //setdim(52,61);
-                particle.vx += 5;
+                player.vx += 5;
                 combo +=1;
             } else if (combo<=8){
                 img.setAttribute("src","images/blossom/punch-4-right.gif");
                 //setdim(59,60);
-                particle.vx += 5;
+                player.vx += 5;
                 combo +=1;
             } else if (combo<=10){
                 img.setAttribute("src","images/blossom/punch-5-right.gif");
                 //setdim(42,63);
-                particle.vx += 5;
+                player.vx += 5;
                 combo +=1;
             } else if (combo<=14){
                 img.setAttribute("src","images/blossom/punch-6-right.gif");
                 //setdim(56,61);
-                particle.vx += 5;
+                player.vx += 5;
                 combo=1;
             }
         } else {
             if( combo <= 2 ){
                 img.setAttribute("src","images/blossom/punch-1-left.gif");
                 //setdim(43,60);
-                particle.vx -= 5;
+                player.vx -= 5;
                 combo +=1;
             } else if (combo <= 4){
                 img.setAttribute("src","images/blossom/punch-2-left.gif");
                 //setdim(55,60);
-                particle.vx -= 5;
+                player.vx -= 5;
                 combo +=1;
             } else if (combo <= 6){
                 img.setAttribute("src","images/blossom/punch-3-left.gif");
                 //setdim(52,61);
-                particle.vx -= 5;
+                player.vx -= 5;
                 combo +=1;
             } else if (combo <= 8){
                 img.setAttribute("src","images/blossom/punch-4-left.gif");
                 //setdim(59,60);
-                particle.vx -= 5;
+                player.vx -= 5;
                 combo +=1;
             } else if (combo <= 10){
                 img.setAttribute("src","images/blossom/punch-5-left.gif");
                 //setdim(42,63);
-                particle.vx -= 5;
+                player.vx -= 5;
                 combo +=1;
             } else if (combo <= 14){
                 img.setAttribute("src","images/blossom/punch-6-left.gif");
                 //setdim(56,61);
-                particle.vx -= 5;
+                player.vx -= 5;
                 combo=1;
             }
         };
@@ -390,16 +390,16 @@ onkeydown = onkeyup = function(e){
                 img.setAttribute("src","images/blossom/kick-1-right.gif");
                 //setdim(52,54);
                 if(!flying){
-                    particle.vx += 15;
-                    particle.vy -= 80;
+                    player.vx += 15;
+                    player.vy -= 80;
                 }
                 combo+=1;
             } else if (combo <= 10){
                 img.setAttribute("src","images/blossom/kick-2-right.gif");
                 //setdim(85,52);
                 if(!flying){
-                    particle.vx += 20;
-                    //particle.vy -= 15;
+                    player.vx += 20;
+                    //player.vy -= 15;
                 }
                 combo+=1;
             }
@@ -412,14 +412,14 @@ onkeydown = onkeyup = function(e){
                 img.setAttribute("src","images/blossom/kick-1-left.gif");
                 //setdim(52,54);
                 if(!flying){
-                    particle.vx += 15;
-                    particle.vy -= 80;
+                    player.vx += 15;
+                    player.vy -= 80;
                 }
                 combo+=1;
             } else if (combo <= 10){
                 if(!flying){
-                    particle.vx -= 20;
-                    //particle.vy -= 15;
+                    player.vx -= 20;
+                    //player.vy -= 15;
                 }
                 img.setAttribute("src","images/blossom/kick-2-left.gif");
                 //setdim(85,52);
@@ -438,7 +438,7 @@ onkeydown = onkeyup = function(e){
                 combo += 1;
             } else if (combo === 4) {
                 laser.exists=true;
-                laser.setPosition(particle.x+img.width*(.7),particle.y+15);
+                laser.setPosition(player.x+img.width*(.7),player.y+15);
                 laser.setRight();
                 laser.setImage("images/blossom/laser.gif");
                 combo += 1;
@@ -450,7 +450,7 @@ onkeydown = onkeyup = function(e){
                 combo +=1;
             } else if (combo === 4) {
                 laser.exists=true;
-                laser.setPosition(particle.x-img.width*(.9),particle.y+15);
+                laser.setPosition(player.x-img.width*(.9),player.y+15);
                 laser.setLeft();
                 laser.setImage("images/blossom/laser.gif");
                 combo += 1;
@@ -459,19 +459,19 @@ onkeydown = onkeyup = function(e){
     } else {
         moving = false;
         attacking = false;
-        particle.ax = 0;
+        player.ax = 0;
         combo=1;
         if(flying){
-            if(right && particle.vy >= 0){
+            if(right && player.vy >= 0){
                 img.setAttribute("src","images/blossom/falling-right.gif");
                 //setdim(43,59);
-            } else if(right && particle.vy < 0){
+            } else if(right && player.vy < 0){
                 img.setAttribute("src","images/blossom/fly-neutral-right.gif");
                 //setdim(46,75);
-            } else if(left && particle.vy >= 0){
+            } else if(left && player.vy >= 0){
                 img.setAttribute("src","images/blossom/falling-left.gif");
                 //setdim(43,59);
-            } else if(left && particle.vy < 0){
+            } else if(left && player.vy < 0){
                 img.setAttribute("src","images/blossom/fly-neutral-left.gif");
                 //setdim(46,75);
             }
@@ -496,18 +496,32 @@ var ctx = canvas.getContext( "2d" );
 // Frames-per-second
 var FPS = 150;
 
-// Particle object
-var particle = {
+// player object
+var player = {
     x: canvas.width/4,
     y: canvas.height - 65,
     vx: 0,
     vy: 0,
     ax: 0,
     ay: 150,
-    color: "red",
+    health: 100,
     draw: function() {
         ctx.drawImage(img,this.x,this.y);
     },
+    manage: function(proj){
+        var xtouching = (Math.abs(proj.x - this.x) <= 20);
+        var y1 = (proj.y > this.y) && (proj.y < (this.y+img.height));
+        var y2 = (proj.y + img.height) > this.y;
+        var ytouching =  y1 || y2
+      
+        if(xtouching && ytouching){
+            this.health -= .5;
+            if(this.health <=0){
+                this.health = 0;
+            };
+        };
+    },
+    
     update: function() {
         
         if(!attacking){
@@ -516,6 +530,10 @@ var particle = {
             this.x += this.vx / FPS;
             this.y += this.vy / FPS;
         };
+        
+        this.manage(fireball);
+        this.manage(laser);
+        this.manage(protoman.getPlasmaBall());
         
         if(this.y < (canvas.height - 65 - img.height*1.5)){
             flying = true;
@@ -549,7 +567,7 @@ var particle = {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(stage,0,0,canvas.width,canvas.height);
-    particle.draw();
+    player.draw();
    if(fireball.exists){
         fireball.draw();
     };
@@ -561,11 +579,11 @@ function draw() {
     };
     
     protoman.draw();
-}
+};
 
 // Game loop update function
 function update() {
-    particle.update();
+    player.update();
     if(fireball.exists){
         fireball.update();
     };
@@ -577,7 +595,7 @@ function update() {
     };
     
     protoman.update();
-
+    health.update();
 }
 
 function tick() {

@@ -6,6 +6,7 @@ function Character(img_src,speed){
     this.vx = 0;
     this.vy = 0;
     this.ax = 0;
+    this.health = 100;
     this.left = true;
     this.right = false;
     this.up = false;

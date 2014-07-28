@@ -78,17 +78,26 @@ function Protoman(){
     
     var moves = 0;
     
-    this.reflect = function(proj){
+    this.manage = function(proj){
         var xtouching = (Math.abs(proj.x - this.character.x) <= 20);
         var y1 = (proj.y > this.character.y) && (proj.y < (this.character.y+this.character.img.height));
         var y2 = (proj.y + proj.img.height) > this.character.y;
         var ytouching =  y1 || y2
         var goingRight = proj.velocity > 0;
-        if(this.character.left && goingRight && xtouching && ytouching){
-            proj.reverse();
-        } else if (this.character.right && !goingRight && xtouching && ytouching){
-            proj.reverse();
-        };
+        if(this.character.defend){
+            if(this.character.left && goingRight && xtouching && ytouching){
+                proj.reverse();
+            } else if (this.character.right && !goingRight && xtouching && ytouching){
+                proj.reverse();
+            };
+        } else {
+            if(xtouching && ytouching){
+                this.character.health -= .5;
+                if(this.character.health <=0){
+                    this.character.health = 0;
+                }
+            }
+        }
     };
     
     this.draw = function(){
@@ -98,10 +107,8 @@ function Protoman(){
         this.character.move();
         this.character.update();
         this.setSprite();
-        if(this.character.defend){
-            this.reflect(fireball);
-            this.reflect(laser);
-        };
+        this.manage(fireball);
+        this.manage(laser);
     };
     
     this.setSprite = function(){

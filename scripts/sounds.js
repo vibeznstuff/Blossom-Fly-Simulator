@@ -1,11 +1,10 @@
 var sounds = [];
 sounds[0] = new Audio("sounds/bonita.mp3");
 sounds[1] = new Audio("sounds/cissy.mp3");
-sounds[2] = new Audio("sounds/thumb.mp3");
-sounds[3] = new Audio("sounds/proceed.mp3");
-sounds[4] = new Audio("sounds/heartbeats.mp3");
-sounds[5] = new Audio("sounds/cooler.MP3");
-sounds[6] = new Audio("sounds/lovetrain.mp3");
+sounds[2] = new Audio("sounds/proceed.mp3");
+sounds[3] = new Audio("sounds/heartbeats.mp3");
+sounds[4] = new Audio("sounds/cooler.MP3");
+sounds[5] = new Audio("sounds/lovetrain.mp3");
 
 var i = Math.round(Math.random()*(sounds.length-1));
 

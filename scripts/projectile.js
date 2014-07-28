@@ -26,9 +26,15 @@ function Projectile(x,y,v,img,exists,rsrc,lsrc){
         // Collision detection
         if (this.x  < -100) {
             this.exists = false;
+            this.x = 1000;
+            this.y = 1000;
+            this.vx = 0;
         };
         if ( this.x > canvas.width) {
             this.exists = false;
+            this.x = 1000;
+            this.y = 1000;
+            this.vx = 0;
         };
     };
     this.setImage = function(src){

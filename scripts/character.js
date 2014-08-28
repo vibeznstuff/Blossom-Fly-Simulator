@@ -3,6 +3,7 @@
 function Character(img_src,speed){
     this.x = 3*canvas.width/4;
     this.y =  canvas.height - 65;
+    this.handtohand = false;
     this.vx = 0;
     this.vy = 0;
     this.ax = 0;

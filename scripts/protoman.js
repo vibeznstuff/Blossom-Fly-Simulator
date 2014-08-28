@@ -79,25 +79,40 @@ function Protoman(){
     var moves = 0;
     
     this.manage = function(proj){
-        var xtouching = (Math.abs(proj.x - this.character.x) <= 20);
-        var y1 = (proj.y > this.character.y) && (proj.y < (this.character.y+this.character.img.height));
-        var y2 = (proj.y + proj.img.height) > this.character.y;
-        var ytouching =  y1 || y2
-        var goingRight = proj.velocity > 0;
-        if(this.character.defend){
-            if(this.character.left && goingRight && xtouching && ytouching){
-                proj.reverse();
-            } else if (this.character.right && !goingRight && xtouching && ytouching){
-                proj.reverse();
+        //Handle case where you are being attacked with hand-to-hand combat
+        if(proj.hasOwnProperty('handtohand')){
+            if(proj.handtohand){
+                var xtouching = (Math.abs(proj.x - this.character.x) <= 40);
+                var ytouching = (Math.abs(proj.y - this.character.y) <= 40);
+                if(xtouching && ytouching){
+                    this.character.health -= .05
+                    if(this.character.health <=0){
+                        this.character.health = 0;
+                    };
+                };
             };
         } else {
-            if(xtouching && ytouching){
-                this.character.health -= .5;
-                if(this.character.health <=0){
-                    this.character.health = 0;
-                }
-            }
-        }
+            var xtouching = (Math.abs(proj.x - this.character.x) <= 20);
+            //Projectile hits middle of protoman
+            var y1 = (proj.y > this.character.y) && (proj.y < (this.character.y+this.character.img.height));
+            var y2 = (proj.y + proj.img.height) > this.character.y;
+            var ytouching =  y1 || y2;
+            var goingRight = proj.velocity > 0;
+            if(this.character.defend){
+                if(this.character.left && goingRight && xtouching && ytouching){
+                    proj.reverse();
+                } else if (this.character.right && !goingRight && xtouching && ytouching){
+                    proj.reverse();
+                };
+            } else {
+                if(xtouching && ytouching){
+                    this.character.health -= .5;
+                    if(this.character.health <=0){
+                        this.character.health = 0;
+                    };
+                };
+            };
+        };
     };
     
     this.draw = function(){
@@ -109,6 +124,7 @@ function Protoman(){
         this.setSprite();
         this.manage(fireball);
         this.manage(laser);
+        this.manage(player);
     };
     
     this.setSprite = function(){

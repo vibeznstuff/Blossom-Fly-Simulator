@@ -304,9 +304,11 @@ onkeydown = onkeyup = function(e){
         if(kicking){
             punching = true;
             kicking = false;
+            player.handtohand = true;
             combo=1;
         } else {
             punching = true;
+            player.handtohand = true;
         }
         if(right){
             if( combo<=2 ){
@@ -378,8 +380,10 @@ onkeydown = onkeyup = function(e){
             kicking = true;
             punching = false;
             combo=1;
+            player.handtohand = true;
         } else {
             kicking = true;
+            player.handtohand = true;
         }
         if(right){
             if(combo <= 1){
@@ -459,6 +463,7 @@ onkeydown = onkeyup = function(e){
     } else {
         moving = false;
         attacking = false;
+        player.handtohand = false;
         player.ax = 0;
         combo=1;
         if(flying){
@@ -500,6 +505,7 @@ var FPS = 150;
 var player = {
     x: canvas.width/4,
     y: canvas.height - 65,
+    handtohand: false,
     vx: 0,
     vy: 0,
     ax: 0,
@@ -512,7 +518,7 @@ var player = {
         var xtouching = (Math.abs(proj.x - this.x) <= 20);
         var y1 = (proj.y > this.y) && (proj.y < (this.y+img.height));
         var y2 = (proj.y + img.height) > this.y;
-        var ytouching =  y1 || y2
+        var ytouching =  y1 || y2;
       
         if(xtouching && ytouching){
             this.health -= .5;
@@ -599,8 +605,16 @@ function update() {
 }
 
 function tick() {
-    draw();
-    update();
+    if(player.health > 0 && protoman.character.health > 0){
+        draw();
+        update();
+    } else {
+        ctx.fillStyle="white";
+        ctx.fillRect(canvas.width*.2,canvas.height*.2,canvas.width*.6,canvas.height*.6);
+        ctx.font="50px Georgia";
+        ctx.fillStyle="black";
+        ctx.fillText("GAME OVER",canvas.width*.3,canvas.height*.4);
+    }
 }
 
 setInterval( tick, 1000 / FPS );

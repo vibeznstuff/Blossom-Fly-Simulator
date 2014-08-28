@@ -1,4 +1,13 @@
-//Projectile object
+/*
+    ----Projectile Object----
+    x: x position
+    y: y position
+    v: velocity
+    img: img object
+    exists: boolean acknowlding if projectile is on screen
+    rsrc: right-facing source image
+    lsrc: left-facing source image
+*/
 function Projectile(x,y,v,img,exists,rsrc,lsrc){
     this.x = x;
     this.y = y;

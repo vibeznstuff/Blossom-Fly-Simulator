@@ -7,7 +7,7 @@ sounds[4] = new Audio("sounds/cooler.MP3");
 sounds[5] = new Audio("sounds/lovetrain.mp3");
 
 var i = Math.round(Math.random()*(sounds.length-1));
-
+/*
 sounds[i].addEventListener('ended', function() {
     console.log("Hey I'm looping");
     i = Math.round(Math.random()*(sounds.length-1));
@@ -15,7 +15,7 @@ sounds[i].addEventListener('ended', function() {
     sounds[i].play();
 }, false);
 
-sounds[i].play();
+sounds[i].play(); */
 
 function lowerVolume(){
     if(sounds[i].volume > 0){
